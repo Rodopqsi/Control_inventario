@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Producto{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">{{ producto|default:'Nuevo Producto' }}</h1>
+<form method="post" enctype="multipart/form-data" novalidate>
+  {% csrf_token %}
+  <div class="row g-3">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          {{ form.as_p }}
+        </div>
+        <div class="card-footer d-flex gap-2">
+          <button class="btn btn-primary" type="submit">Guardar</button>
+          <a href="/productos/" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body text-center">
+          {% if producto and producto.imagen %}
+            <img src="{{ producto.imagen.url }}" class="img-fluid" alt="preview">
+          {% else %}
+            <div class="text-muted">Sin imagen</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

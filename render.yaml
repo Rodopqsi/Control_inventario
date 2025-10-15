@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: inventario-django
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate --noinput
+    startCommand: gunicorn inventario.wsgi:application --workers 3 --log-file - --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: 
+      - key: DJANGO_CSRF_TRUSTED
+        value: 
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DJANGO_SECRET_KEY
+        fromSecret: SECRET_KEY
+      - key: DATABASE_URL
+        fromDatabase: inventario-db
+    disk:
+      name: media
+      mountPath: /opt/render/project/src/media
+      sizeGB: 1
+
+databases:
+  - name: inventario-db
+    databaseName: inventario
+    plan: free

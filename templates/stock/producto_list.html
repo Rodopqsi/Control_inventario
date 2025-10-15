@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Productos{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3">Productos</h1>
+  <a class="btn btn-primary" href="/productos/nuevo/">Nuevo Producto</a>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped align-middle">
+    <thead><tr><th>#</th><th>Imagen</th><th>Nombre</th><th>Stock</th><th>Precio</th><th>Proveedor</th><th></th></tr></thead>
+    <tbody>
+      {% for item in productos %}
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>
+          {% if item.imagen %}
+            <img src="{{ item.imagen.url }}" alt="{{ item.nombre }}" style="height:48px;width:auto;object-fit:cover;">
+          {% else %}
+            <span class="text-muted">Sin imagen</span>
+          {% endif %}
+        </td>
+        <td>{{ item.nombre }}</td>
+        <td>{{ item.stock }}</td>
+        <td>S/ {{ item.precio }}</td>
+        <td>{{ item.proveedor.nombre }}</td>
+        <td class="text-end">
+          <a href="/productos/{{ item.id }}/editar/" class="btn btn-sm btn-secondary">Editar</a>
+          <a href="/productos/{{ item.id }}/eliminar/" class="btn btn-sm btn-outline-danger">Eliminar</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="text-center">Sin registros</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
