@@ -20,7 +20,9 @@ services:
       - key: DJANGO_SECRET_KEY
         fromSecret: SECRET_KEY
       - key: DATABASE_URL
-        fromDatabase: inventario-db
+        fromDatabase:
+          name: inventario-db
+          property: connectionString
     disk:
       name: media
       mountPath: /opt/render/project/src/media
